@@ -4,12 +4,20 @@ import {
   Route
 } from 'react-router-dom';
 
+import Notfound from './Component/Notfound/Notfound';
+import Signup from './Component/Signup/Signup';
+import Login from './Component/Login/Login';
+import AdminPanel from './Component/AdminPanel/AdminPanel';
+
 const App = () => {
   const design = (
     <>
       <Router>
         <Routes>
-          <Route path='/' element={<h1>Welcome to Home page</h1>} />
+          <Route path='/' element={<Signup />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/admin-panel' element={<AdminPanel />} />
+          <Route path='/*' element={<Notfound />} />
         </Routes>
       </Router>
     </>
