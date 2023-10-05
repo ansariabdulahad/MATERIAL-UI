@@ -7,8 +7,22 @@ import {
     Stack,
     TextField
 } from '@mui/material';
+import {
+    Link,
+    useNavigate
+} from 'react-router-dom';
 
+// MAIN COMPONNENT OF LOGIN PAGE
 const Login = () => {
+    const navigate = useNavigate();
+
+    //LOGIN FUNCTION CODING
+    const login = (e) => {
+        e.preventDefault();
+        navigate('/admin-panel')
+    }
+
+    // MAIN LOGIN PAGE DESIGN CODEING
     const design = (
         <>
             <Container>
@@ -16,7 +30,7 @@ const Login = () => {
                     <Grid item sm="6" xs="12">One</Grid>
                     <Grid item sm="6" xs="12">
                         <h1>Login</h1>
-                        <form>
+                        <form onClick={login}>
                             <Stack direction={'column'} spacing={3}>
                                 <TextField
                                     name='username'
@@ -49,6 +63,24 @@ const Login = () => {
                                             fontSize: "18px"
                                         }}
                                     >Login</Button>
+                                </Stack>
+                                <Stack
+                                    direction={'row'}
+                                    justifyContent={'space-between'}
+                                    alignItems={'center'}
+                                >
+                                    <Link
+                                        to={"#"}
+                                        style={{
+                                            textDecoration: 'none'
+                                        }}
+                                    >Create New Account !</Link>
+                                    <Link
+                                        to={"#"}
+                                        style={{
+                                            textDecoration: 'none'
+                                        }}
+                                    >Forgot Password !</Link>
                                 </Stack>
                             </Stack>
                         </form>
