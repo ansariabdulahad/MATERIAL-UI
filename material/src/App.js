@@ -4,6 +4,8 @@ import {
   Route
 } from 'react-router-dom';
 
+import 'material-icons/iconfont/material-icons.css';
+
 import Notfound from './Component/Notfound/Notfound';
 import Signup from './Component/Signup/Signup';
 import Login from './Component/Login/Login';
@@ -19,6 +21,7 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/admin-panel' element={<AdminPanel />}>
             <Route path='dashboard' element={<Dashboard />} />
+            <Route path='login' element={<Login />} />
           </Route>
           <Route path='/*' element={<Notfound />} />
         </Routes>

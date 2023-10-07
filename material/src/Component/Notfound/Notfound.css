@@ -1,0 +1,50 @@
+.body {
+    font-family: "montserrat";
+    min-height: 100vh;
+    background-image: linear-gradient(125deg, #6a89cc, #b8e994);
+  }
+  
+  .not-found {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: #343434;
+  }
+
+  .not-found span {
+    font-size: 50px;
+    background: url('../../../public/images/404-span.gif') center no-repeat;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .not-found h1 {
+    font-size: 160px;
+    margin: 0;
+    padding: 20px;
+    font-weight: 900;
+    letter-spacing: 20px;
+    background: url("../../../public/images/404.webp") center no-repeat;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .not-found .link {
+    text-decoration: none;
+    background: #e55039aa;
+    color: #fff;
+    padding: 12px 24px;
+    display: inline-block;
+    border-radius: 25px;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: 0.4s;
+    font-weight: bold;
+    box-shadow: 0px 0px 10px black;
+  }
+  
+  .not-found .link:hover {
+    background-color: #e55039;
+  }

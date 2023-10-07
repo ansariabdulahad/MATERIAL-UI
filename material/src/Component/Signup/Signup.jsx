@@ -1,7 +1,10 @@
+import { Link } from 'react-router-dom';
+
 const Signup = () => {
+
     const design = (
         <>
-            <h1>Welcome to SIGNUP PAGE</h1>
+            <Link to={'/login'}>Login</Link>
         </>
     );
     return design;

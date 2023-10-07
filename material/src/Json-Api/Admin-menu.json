@@ -1,0 +1,22 @@
+[
+    {
+      "label": "Dashboard",
+      "icon": "dashboard"
+    },
+    {
+      "label": "Analytics",
+      "icon": "analytics"
+    },
+    {
+      "label": "Inventory",
+      "icon": "inventory"
+    },
+    {
+      "label": "Inbox",
+      "icon": "inbox"
+    },
+    {
+      "label": "Logout",
+      "icon": "logout"
+    }
+  ]
