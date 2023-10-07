@@ -1,22 +1,89 @@
 [
-    {
-      "label": "Dashboard",
-      "icon": "dashboard"
-    },
-    {
-      "label": "Analytics",
-      "icon": "analytics"
-    },
-    {
-      "label": "Inventory",
-      "icon": "inventory"
-    },
-    {
-      "label": "Inbox",
-      "icon": "inbox"
-    },
-    {
-      "label": "Logout",
-      "icon": "logout"
-    }
-  ]
+  {
+    "cat": "DASHBOARD",
+    "menus": [
+      {
+        "label": "Modern",
+        "icon": "airplay",
+        "link": "modern"
+      },
+      {
+        "label": "Analytics",
+        "icon": "analytics",
+        "link": "analytics"
+      },
+      {
+        "label": "Inventory",
+        "icon": "inventory",
+        "link": "inventory"
+      }
+    ]
+  },
+  {
+    "cat": "APPS",
+    "menus": [
+      {
+        "label": "Customer",
+        "icon": "group",
+        "isDropdown": true,
+        "dropdownMenu": [
+          {
+            "label": "List",
+            "icon": "list",
+            "link": "customer-list"
+          },
+          {
+            "label": "Add New",
+            "icon": "add",
+            "link": "customer-add"
+          },
+          {
+            "label": "Edit",
+            "icon": "edit",
+            "link": "customer-edit"
+          }
+        ]
+      },
+      {
+        "label": "Calender",
+        "icon": "schedule",
+        "link": "calender"
+      },
+      {
+        "label": "Inbox",
+        "icon": "inbox",
+        "link": "inbox"
+      },
+      {
+        "label": "Chat",
+        "icon": "chat_bubble",
+        "link": "chat"
+      },
+      {
+        "label": "Mail",
+        "icon": "mail",
+        "link": "mail"
+      },
+      {
+        "label": "Notifications",
+        "icon": "notifications",
+        "link": "notification"
+      }
+    ]
+  },
+  {
+    "cat": "AUTHENTICATIONS",
+    "menus": [
+      {
+        "label": "Reset Password",
+        "icon": "password",
+        "link": "reset-password"
+      },
+      {
+        "label": "Logout",
+        "icon": "logout",
+        "link": "logout"
+      }
+    ]
+  }
+]

@@ -6,9 +6,10 @@
   
   .not-found {
     width: 100%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    position: relative;
+    margin: auto;
+    /* top: 50%;
+    transform: translateY(-50%); */
     text-align: center;
     color: #343434;
   }

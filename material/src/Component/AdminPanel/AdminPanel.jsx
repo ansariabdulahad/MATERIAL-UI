@@ -1,6 +1,7 @@
 import {
     AppBar,
     Box,
+    Collapse,
     Drawer,
     IconButton,
     List,
@@ -8,26 +9,94 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    ListSubheader,
     Stack,
     Toolbar,
 } from "@mui/material";
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
-import Nav from './Nav';
 import adminMenu from '../../Json-Api/Admin-menu.json';
 
 const AdminPanel = () => {
 
     const [active, setActive] = useState(true);
     const [width, setWidth] = useState(250);
+    const [collapse, setCollapse] = useState(false);
 
     const controlDrawer = () => {
         return (
             // setActive(!active),
             // active ? setWidth(0) : setWidth(250);
-            width === 250 ? setWidth(50) : setWidth(250)
+            width === 250 ? setWidth(80) : setWidth(250)
         )
+    }
+
+    const MenuList = ({ item }) => {
+        const menuDesign = (
+            <div>
+                <List
+                    subheader={<ListSubheader>{item.cat}</ListSubheader>}
+                >
+                    {
+                        item.menus.map((menu, index) => {
+                            return <Nav key={index} menu={menu} />
+                        })
+                    }
+                </List>
+            </div>
+        );
+        return menuDesign;
+    }
+
+    const Nav = ({ menu }) => {
+        const navDesign = (
+            <div>
+                <ListItem sx={{ py: 0 }}>
+                    <ListItemButton
+                        LinkComponent={Link}
+                        to={menu.link ? menu.link : false}
+                        onClick={menu.isDropdown ? () => setCollapse(!collapse) : null}
+                    >
+                        <ListItemIcon>
+                            <span className="material-icons">{menu.icon}</span>
+                        </ListItemIcon>
+                        <ListItemText primary={menu.label} />
+                        {
+                            menu.isDropdown
+                                ?
+                                <span className="material-icons">expand_more</span>
+                                :
+                                null
+                        }
+                    </ListItemButton>
+                </ListItem>
+                {
+                    menu.isDropdown ? <Dropdown dMenu={menu.dropdownMenu} /> : null
+                }
+            </div>
+        );
+        return navDesign;
+    }
+
+    const Dropdown = ({ dMenu }) => {
+        const dropdownDesign = (
+            <div>
+                <Collapse
+                    in={collapse}
+                    sx={{
+                        pl: 4
+                    }}
+                >
+                    {
+                        dMenu.map((menu, index) => {
+                            return <Nav key={index} menu={menu} />
+                        })
+                    }
+                </Collapse>
+            </div>
+        );
+        return dropdownDesign;
     }
 
     const design = (
@@ -36,22 +105,31 @@ const AdminPanel = () => {
                 <Drawer
                     variant="persistent"
                     open={active}
+                    onMouseOver={() => setWidth(250)}
                     sx={{
                         width: width,
                         "& .MuiDrawer-paper": {
                             width: width,
-                            bgcolor: '#f5f5f5',
+                            bgcolor: '#fff',
                             transition: "0.3s"
                         }
                     }}
                 >
-                    <List>
-                        {
-                            adminMenu.map((item, index) => {
-                                return <Nav key={index} item={item} />
-                            })
-                        }
-                    </List>
+                    <List
+                        subheader={<ListSubheader
+                            sx={{
+                                mt: 3,
+                                mb: 0
+                            }}
+                        >
+                            <img src="images/LOGO.png" width={200} alt="brannd-logo" />
+                        </ListSubheader>}
+                    />
+                    {
+                        adminMenu.map((item, index) => {
+                            return <MenuList key={index} item={item} />
+                        })
+                    }
                 </Drawer>
                 <AppBar
                     position="fixed"
@@ -77,7 +155,7 @@ const AdminPanel = () => {
                         transition: '0.3s'
                     }}
                 >
-                    <h1>Welcome to admin panel</h1>
+                    <Outlet />
                 </Stack>
             </Stack>
         </>

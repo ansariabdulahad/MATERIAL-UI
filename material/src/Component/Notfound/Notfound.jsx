@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 const Notfound = () => {
     const design = (
         <>
-            <Stack className="body">
+            <Stack
+                className="body"
+            >
                 <Box className="not-found">
                     <h2><span>Oops!</span> Page not found.</h2>
                     <h1>404</h1>

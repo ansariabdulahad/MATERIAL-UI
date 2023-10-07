@@ -1,16 +1,20 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import Dropdown from "./Dropdown";
 
-const Nav = ({ item }) => {
+const Nav = ({ menu }) => {
     const navDesign = (
         <>
-            <ListItem disablePadding>
+            <ListItem sx={{ py: 0 }}>
                 <ListItemButton>
                     <ListItemIcon>
-                        <span className="material-icons">{item.icon}</span>
+                        <span className="material-icons">{menu.icon}</span>
                     </ListItemIcon>
-                    <ListItemText primary={item.label} />
+                    <ListItemText primary={menu.label} />
                 </ListItemButton>
             </ListItem>
+            {
+                menu.isDropdown ? <Dropdown dMenu={menu.dropdownMenu} /> : null
+            }
         </>
     );
     return navDesign;

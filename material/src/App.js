@@ -22,6 +22,7 @@ const App = () => {
           <Route path='/admin-panel' element={<AdminPanel />}>
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='login' element={<Login />} />
+            <Route path='*' element={<Notfound />} />
           </Route>
           <Route path='/*' element={<Notfound />} />
         </Routes>
