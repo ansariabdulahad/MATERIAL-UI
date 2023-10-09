@@ -28,7 +28,7 @@ const AdminPanel = () => {
         return (
             // setActive(!active),
             // active ? setWidth(0) : setWidth(250);
-            width === 250 ? setWidth(80) : setWidth(250)
+            width === 250 ? setWidth(70) : setWidth(250)
         )
     }
 
