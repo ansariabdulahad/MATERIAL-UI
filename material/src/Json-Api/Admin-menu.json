@@ -56,7 +56,7 @@
       },
       {
         "label": "Chat",
-        "icon": "chat_bubble",
+        "icon": "chat_bubble_outlined",
         "link": "chat"
       },
       {
