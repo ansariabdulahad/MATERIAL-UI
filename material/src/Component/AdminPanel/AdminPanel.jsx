@@ -1,9 +1,8 @@
 import {
     AppBar,
     Avatar,
-    Box,
+    Breadcrumbs,
     Collapse,
-    Divider,
     Drawer,
     IconButton,
     List,
@@ -16,19 +15,31 @@ import {
     MenuItem,
     Stack,
     Toolbar,
+    Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import {
+    Link,
+    Outlet,
+    useResolvedPath,
+    useMatch,
+    useLocation
+} from "react-router-dom";
+import { deepOrange } from "@mui/material/colors";
+import MediaQuery from 'react-responsive';
 
 import adminMenu from '../../Json-Api/Admin-menu.json';
 
 const AdminPanel = () => {
 
     const [active, setActive] = useState(true);
+    const [activeOnMobile, setActiveOnMobile] = useState(false);
     const [width, setWidth] = useState(250);
     const [collapse, setCollapse] = useState(false);
     const [parent, setParent] = useState(null);
 
+    const location = useLocation();
+    const routing = location.pathname.split('/');
     const open = Boolean(parent);
 
     const openProfileMenu = (e) => {
@@ -36,11 +47,19 @@ const AdminPanel = () => {
         return setParent(el);
     }
 
-    const controlDrawer = () => {
+    const controlDrawerOnDesktop = () => {
         return (
             // setActive(!active),
-            // active ? setWidth(0) : setWidth(250);
+            // active ? setWidth(0) : setWidth(250)
             width === 250 ? setWidth(80) : setWidth(250)
+        )
+    }
+
+    const controlDrawerOnMobile = () => {
+        return (
+            setActiveOnMobile(!activeOnMobile),
+            activeOnMobile ? setWidth(0) : setWidth(250)
+            // width === 250 ? setWidth(80) : setWidth(250)
         )
     }
 
@@ -62,16 +81,34 @@ const AdminPanel = () => {
     }
 
     const Nav = ({ menu }) => {
+        const resolvedPath = useResolvedPath(menu.link ? menu.link : false);
+        const activeLink = useMatch({
+            path: resolvedPath.pathname,
+            end: false
+        });
         const navDesign = (
             <div>
                 <ListItem sx={{ py: 0 }}>
                     <ListItemButton
                         LinkComponent={Link}
-                        to={menu.link ? menu.link : false}
+                        to={menu.link ? menu.link : null}
                         onClick={menu.isDropdown ? () => setCollapse(!collapse) : null}
+                        sx={{
+                            bgcolor: activeLink && menu.link ? deepOrange[500] : null,
+                            color: activeLink && menu.link ? 'white' : null,
+                            borderRadius: '10px',
+                            "&:hover": {
+                                bgcolor: activeLink && menu.link ? deepOrange[300] : null
+                            }
+                        }}
                     >
                         <ListItemIcon>
-                            <span className="material-icons-outlined">{menu.icon}</span>
+                            <span
+                                className="material-icons-outlined"
+                                style={{
+                                    color: activeLink && menu.link ? "white" : null
+                                }}
+                            >{menu.icon}</span>
                         </ListItemIcon>
                         <ListItemText primary={menu.label} />
                         {
@@ -111,44 +148,94 @@ const AdminPanel = () => {
         return dropdownDesign;
     }
 
+    const DesktopDrawer = () => {
+        const tmp = (
+            <Drawer
+                variant="persistent"
+                open={active}
+                onMouseOver={() => setWidth(250)}
+                sx={{
+                    width: width,
+                    "& .MuiDrawer-paper": {
+                        width: width,
+                        bgcolor: '#fff',
+                        transition: "0.3s"
+                    }
+                }}
+            >
+                <List
+                    subheader={<ListSubheader
+                        sx={{
+                            mt: 3,
+                            mb: 0
+                        }}
+                    >
+                        <img src="images/LOGO.png" width={200} alt="brannd-logo" />
+                    </ListSubheader>}
+                />
+                {
+                    adminMenu.map((item, index) => {
+                        return <MenuList key={index} item={item} />
+                    })
+                }
+            </Drawer>
+        );
+        return tmp;
+    }
+
+    const MobileDrawer = () => {
+        const tmp = (
+            <Drawer
+                variant="temporary"
+                open={activeOnMobile}
+                onClick={controlDrawerOnMobile}
+                sx={{
+                    width: width,
+                    "& .MuiDrawer-paper": {
+                        width: width,
+                        bgcolor: '#fff',
+                        transition: "0.3s"
+                    }
+                }}
+            >
+                <List
+                    subheader={<ListSubheader
+                        sx={{
+                            mt: 3,
+                            mb: 0
+                        }}
+                    >
+                        <img src="images/LOGO.png" width={200} alt="brannd-logo" />
+                    </ListSubheader>}
+                />
+                {
+                    adminMenu.map((item, index) => {
+                        return <MenuList key={index} item={item} />
+                    })
+                }
+            </Drawer>
+        );
+        return tmp;
+    }
+
     const design = (
         <>
             <Stack>
-                <Drawer
-                    variant="persistent"
-                    open={active}
-                    onMouseOver={() => setWidth(250)}
-                    sx={{
-                        width: width,
-                        "& .MuiDrawer-paper": {
-                            width: width,
-                            bgcolor: '#fff',
-                            transition: "0.3s"
-                        }
-                    }}
-                >
-                    <List
-                        subheader={<ListSubheader
-                            sx={{
-                                mt: 3,
-                                mb: 0
-                            }}
-                        >
-                            <img src="images/LOGO.png" width={200} alt="brannd-logo" />
-                        </ListSubheader>}
-                    />
-                    {
-                        adminMenu.map((item, index) => {
-                            return <MenuList key={index} item={item} />
-                        })
-                    }
-                </Drawer>
+                <MediaQuery minWidth={1224}>
+                    <DesktopDrawer />
+                </MediaQuery>
+                <MediaQuery maxWidth={1224}>
+                    <MobileDrawer />
+                </MediaQuery>
                 <AppBar
                     elevation={2}
                     position="fixed"
                     color="inherit"
                     sx={{
-                        width: `calc(100% - ${width}px)`,
+                        width: {
+                            xs: "100%",
+                            md: `calc(100% - ${width}px)`
+                        },
                         transition: '0.3s'
                     }}
                 >
@@ -162,11 +249,20 @@ const AdminPanel = () => {
                                 direction={"row"}
                                 spacing={"12px"}
                             >
-                                <IconButton
-                                    onClick={controlDrawer}
-                                >
-                                    <span className="material-icons-outlined">menu</span>
-                                </IconButton>
+                                <MediaQuery minWidth={1224}>
+                                    <IconButton
+                                        onClick={controlDrawerOnDesktop}
+                                    >
+                                        <span className="material-icons-outlined">menu</span>
+                                    </IconButton>
+                                </MediaQuery>
+                                <MediaQuery maxWidth={1224}>
+                                    <IconButton
+                                        onClick={controlDrawerOnMobile}
+                                    >
+                                        <span className="material-icons-outlined">menu</span>
+                                    </IconButton>
+                                </MediaQuery>
                                 <IconButton>
                                     <span className="material-icons-outlined">email</span>
                                 </IconButton>
@@ -278,7 +374,10 @@ const AdminPanel = () => {
                 </AppBar>
                 <Stack
                     sx={{
-                        ml: `${width}px`,
+                        ml: {
+                            xs: 0,
+                            md: `${width}px`
+                        },
                         mt: 4,
                         p: 3,
                         transition: '0.3s',
@@ -286,6 +385,14 @@ const AdminPanel = () => {
                         minHeight: '100vh'
                     }}
                 >
+                    <Breadcrumbs sx={{ my: 4 }}>
+                        {
+                            routing.map((item, index) => {
+                                // return index > 0 ? <Link to={item != 'admin-panel' ? item : null} key={index}>{item}</Link> : null
+                                return index > 0 ? <Typography key={index}>{item}</Typography> : null
+                            })
+                        }
+                    </Breadcrumbs>
                     <Outlet />
                 </Stack>
             </Stack>
