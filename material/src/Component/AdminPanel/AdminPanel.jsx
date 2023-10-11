@@ -389,7 +389,14 @@ const AdminPanel = () => {
                         {
                             routing.map((item, index) => {
                                 // return index > 0 ? <Link to={item != 'admin-panel' ? item : null} key={index}>{item}</Link> : null
-                                return index > 0 ? <Typography key={index}>{item}</Typography> : null
+                                return (
+                                    index > 0 ? <Typography
+                                        key={index}
+                                        sx={{
+                                            color: deepOrange[500]
+                                        }}
+                                    >{item}</Typography> : null
+                                )
                             })
                         }
                     </Breadcrumbs>
