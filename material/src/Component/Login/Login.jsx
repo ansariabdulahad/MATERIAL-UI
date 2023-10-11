@@ -30,7 +30,7 @@ const Login = () => {
                     <Grid item sm="6" xs="12">One</Grid>
                     <Grid item sm="6" xs="12">
                         <h1>Login</h1>
-                        <form onClick={login}>
+                        <form onSubmit={login}>
                             <Stack direction={'column'} spacing={3}>
                                 <TextField
                                     name='username'
