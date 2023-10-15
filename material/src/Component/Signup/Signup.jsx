@@ -32,6 +32,7 @@ const Signup = () => {
 
     const [input, setInput] = useState(signupForm);
     const [error, setError] = useState(signupFormValidation);
+    const [checked, setChecked] = useState(false);
 
     const updateValue = (e) => {
         const input = e.target;
@@ -59,6 +60,58 @@ const Signup = () => {
         })
     }
 
+    const emailValidation = (e) => {
+        const input = e.target;
+        const key = input.name;
+        const isRequired = validation(input); // calling...
+        const isEmail = emailSyntax(input); // calling...
+
+        return setError((oldData) => {
+            return {
+                ...oldData,
+                [key]: (isRequired.state && isRequired) || isEmail
+            }
+        })
+    }
+
+    const passwordValidation = (e) => {
+        const input = e.target;
+        const key = input.name;
+        const isRequired = validation(input); // calling...
+        const isMinLength = minLength(input, 4); // calling...
+        const isMaxLength = maxLength(input, 8); // calling...
+        const isStrong = strongPassword(input); // calling...
+
+        return setError((oldData) => {
+            return {
+                ...oldData,
+                [key]:
+                    (isRequired.state && isRequired) ||
+                    (isStrong.state && isStrong) ||
+                    (isMinLength.state && isMinLength) ||
+                    isMaxLength
+            }
+        })
+    }
+
+    const mobileValidation = (e) => {
+        const input = e.target;
+        const key = input.name;
+        const isRequired = validation(input); // calling...
+        const isMinLength = minLength(input, 4); // calling...
+        const isMaxLength = maxLength(input, 13); // calling...
+
+        return setError((oldData) => {
+            return {
+                ...oldData,
+                [key]:
+                    (isRequired.state && isRequired) ||
+                    (isMinLength.state && isMinLength) ||
+                    isMaxLength
+            }
+        })
+    }
+
     const validation = (input) => {
         const value = input.value.trim();
 
@@ -73,6 +126,102 @@ const Signup = () => {
                 state: false,
                 message: ""
             }
+        }
+    }
+
+    const emailSyntax = (input) => {
+        const value = input.value.trim();
+        const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g;
+        if (regexp.test(value)) {
+            return {
+                state: false,
+                message: ""
+            }
+        }
+        else {
+            return {
+                state: true,
+                message: "This email is not valid !"
+            }
+        }
+    }
+
+    const strongPassword = (input) => {
+        const value = input.value.trim();
+        const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g;
+        if (regexp.test(value)) {
+            return {
+                state: false,
+                message: ""
+            }
+        }
+        else {
+            return {
+                state: true,
+                message: "Password should contain Uppercase, Lowercase, Numbers and symbols !"
+            }
+        }
+    }
+
+    const minLength = (input, requiredLength) => {
+        const value = input.value.trim();
+        if (value.length < requiredLength) {
+            return {
+                state: true,
+                message: `Minimum ${requiredLength} characters required !`
+            }
+        }
+        else {
+            return {
+                state: false,
+                message: ""
+            }
+        }
+    }
+
+    const maxLength = (input, requiredLength) => {
+        const value = input.value.trim();
+        if (value.length > requiredLength) {
+            return {
+                state: true,
+                message: `Maximum ${requiredLength} characters required`
+            }
+        }
+        else {
+            return {
+                state: false,
+                message: ""
+            }
+        }
+    }
+
+    const validateOnSubmit = () => {
+        let valid = true;
+
+        for (let key in input) {
+            if (input[key].length === 0) {
+                valid = false;
+                setError((oldData) => {
+                    return {
+                        ...oldData,
+                        [key]: {
+                            state: true,
+                            message: "This field is required !"
+                        }
+                    }
+                })
+            }
+        }
+
+        return valid;
+    }
+
+    const register = (e) => {
+        e.preventDefault();
+        const isValid = validateOnSubmit(); // calling...
+
+        if (isValid) {
+            alert("SUCCESS")
         }
     }
 
@@ -100,7 +249,7 @@ const Signup = () => {
                         }}>
                         Register
                     </Typography>
-                    <form>
+                    <form onSubmit={register}>
                         <Stack spacing={3}>
                             <TextField
                                 label="Fullname"
@@ -120,8 +269,8 @@ const Signup = () => {
                                 error={error.mobile.state}
                                 helperText={error.mobile.message}
                                 onChange={updateValue}
-                                onBlur={requiredValidation}
-                                onInput={requiredValidation}
+                                onBlur={mobileValidation}
+                                onInput={mobileValidation}
                             />
                             <TextField
                                 type='email'
@@ -131,8 +280,8 @@ const Signup = () => {
                                 error={error.email.state}
                                 helperText={error.email.message}
                                 onChange={updateValue}
-                                onBlur={requiredValidation}
-                                onInput={requiredValidation}
+                                onBlur={emailValidation}
+                                onInput={emailValidation}
                             />
                             <TextField
                                 type='password'
@@ -142,8 +291,8 @@ const Signup = () => {
                                 error={error.password.state}
                                 helperText={error.password.message}
                                 onChange={updateValue}
-                                onBlur={requiredValidation}
-                                onInput={requiredValidation}
+                                onBlur={passwordValidation}
+                                onInput={passwordValidation}
                             />
                             <Stack
                                 direction={'row'}
@@ -153,15 +302,27 @@ const Signup = () => {
                                 <FormGroup>
                                     <FormControlLabel
                                         label="I Accept Terms & Conditions !"
-                                        control={<Checkbox color='info' />}
+                                        control={
+                                            <Checkbox
+                                                color='info'
+                                                checked={checked}
+                                                onClick={() => setChecked(!checked)}
+                                            />
+                                        }
                                     />
                                 </FormGroup>
                                 <Button>Already Have An Account !</Button>
                             </Stack>
                             <Button
-                                LinkComponent={Link}
-                                to="login"
+                                type='submit'
                                 variant='contained'
+                                disabled={
+                                    error.fullname.state ||
+                                    error.mobile.state ||
+                                    error.email.state ||
+                                    error.password.state ||
+                                    !checked
+                                }
                             >Register</Button>
                         </Stack>
                     </form>
