@@ -1,14 +1,15 @@
 import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Stack, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+
+import useHttp from '../../Hooks/useHttp';
 
 const Signup = () => {
 
     const signupForm = {
-        fullname: "",
-        mobile: "",
-        email: "",
-        password: ""
+        fullname: "Abdul Ahad",
+        mobile: "9545282408",
+        email: "ahad@gmail.com",
+        password: "Ahad@123"
     }
 
     const signupFormValidation = {
@@ -33,6 +34,11 @@ const Signup = () => {
     const [input, setInput] = useState(signupForm);
     const [error, setError] = useState(signupFormValidation);
     const [checked, setChecked] = useState(false);
+
+    const [httpResponse, httpError] = useHttp({
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/posts"
+    });
 
     const updateValue = (e) => {
         const input = e.target;
