@@ -15,7 +15,9 @@ const useHttp = (request) => {
             })
     }
 
-    useEffect(ajax, [request]);
+    useEffect(() => {
+        if (request) ajax();
+    }, [request]);
 
     return [httpResponse, httpError];
 }

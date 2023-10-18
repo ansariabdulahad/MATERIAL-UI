@@ -34,11 +34,11 @@ const Signup = () => {
     const [input, setInput] = useState(signupForm);
     const [error, setError] = useState(signupFormValidation);
     const [checked, setChecked] = useState(false);
+    const [request, setRequest] = useState(null);
 
-    const [httpResponse, httpError] = useHttp({
-        method: "GET",
-        url: "https://jsonplaceholder.typicode.com/posts"
-    });
+    const [httpResponse, httpError] = useHttp(request);
+
+    console.log(httpResponse); 
 
     const updateValue = (e) => {
         const input = e.target;
@@ -227,7 +227,10 @@ const Signup = () => {
         const isValid = validateOnSubmit(); // calling...
 
         if (isValid) {
-            alert("SUCCESS")
+            return setRequest({
+                method: 'GET',
+                url: 'https://jsonplaceholder.typicode.com/posts'
+            })
         }
     }
 
