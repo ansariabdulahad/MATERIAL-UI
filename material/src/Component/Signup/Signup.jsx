@@ -291,8 +291,8 @@ const Signup = () => {
 
         if (isValid) {
             return setRequest({
-                method: 'GET',
-                url: 'https://jsonplaceholder.typicode.com/posts'
+                method: 'POST                                                                                                                                                                                                                                       ',
+                url: 'http://localhost:3030/signup'
             })
         }
     }
