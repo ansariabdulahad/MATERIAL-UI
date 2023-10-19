@@ -5,6 +5,7 @@ const useHttp = (request) => {
 
     const [httpResponse, setHttpResponse] = useState(null);
     const [httpError, setHttpError] = useState(null);
+    const [httpLoader, setHttpLoader] = useState(true);
 
     const ajax = () => {
         axios(request)
@@ -12,6 +13,8 @@ const useHttp = (request) => {
                 setHttpResponse(response.data);
             }).catch((error) => {
                 setHttpError(error);
+            }).finally(() => {
+                setHttpLoader(false);
             })
     }
 
@@ -19,7 +22,7 @@ const useHttp = (request) => {
         if (request) ajax();
     }, [request]);
 
-    return [httpResponse, httpError];
+    return [httpResponse, httpError, httpLoader];
 }
 
 export default useHttp;

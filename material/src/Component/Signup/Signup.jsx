@@ -1,5 +1,6 @@
 import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Stack, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 import useHttp from '../../Hooks/useHttp';
 
@@ -36,11 +37,71 @@ const Signup = () => {
     const [error, setError] = useState(signupFormValidation);
     const [checked, setChecked] = useState(false);
     const [request, setRequest] = useState(null);
+    const [sweetAlert, setSweetAlert] = useState({
+        state: false,
+        message: "",
+        icon: "default",
+        title: ""
+    });
 
     // User defined Hooks
-    const [httpResponse, httpError] = useHttp(request);
+    const [httpResponse, httpError, httpLoader] = useHttp(request);
 
-    console.log(httpResponse);
+    useEffect(() => {
+        if (request) {
+            if (httpResponse) {
+                return setSweetAlert({
+                    state: true,
+                    message: "Signup is success, Try to login !",
+                    icon: "success",
+                    title: "SUCCESS!"
+                });
+            }
+
+            if (httpError) {
+                return setSweetAlert({
+                    state: true,
+                    message: "Signup Failed !",
+                    icon: "error",
+                    title: "FAILED!"
+                });
+            }
+        }
+    }, [httpResponse, httpError, httpLoader]);
+
+    const Alert = () => {
+        const a = (
+            <SweetAlert
+                title={sweetAlert.title}
+                type={sweetAlert.icon}
+                show={sweetAlert.state}
+                showConfirm={true}
+                onConfirm={() => { }}
+                customButtons={
+                    <Stack
+                        direction={'row'}
+                        spacing={3}
+                    >
+                        <Button
+                            variant='outlined'
+                            color='error'
+                        >Cancel</Button>
+                        <Button
+                            variant='contained'
+                            color='success'
+                            sx={{
+                                color: "white"
+                            }}
+                        >Login</Button>
+                    </Stack>
+                }
+            >
+                {sweetAlert.message}
+            </SweetAlert>
+        );
+
+        return a;
+    }
 
     const updateValue = (e) => {
         const input = e.target;
@@ -238,6 +299,9 @@ const Signup = () => {
 
     const design = (
         <>
+            {
+                <Alert />
+            }
             <Grid container>
                 <Grid item sm={7} xs={12}>
                     <img src='images/signup-logo.png' width={'100%'} alt='signup-logo' />
