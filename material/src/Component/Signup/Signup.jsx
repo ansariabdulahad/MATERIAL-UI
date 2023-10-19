@@ -31,14 +31,16 @@ const Signup = () => {
         }
     }
 
+    // Predefined Hooks
     const [input, setInput] = useState(signupForm);
     const [error, setError] = useState(signupFormValidation);
     const [checked, setChecked] = useState(false);
     const [request, setRequest] = useState(null);
 
+    // User defined Hooks
     const [httpResponse, httpError] = useHttp(request);
 
-    console.log(httpResponse); 
+    console.log(httpResponse);
 
     const updateValue = (e) => {
         const input = e.target;
