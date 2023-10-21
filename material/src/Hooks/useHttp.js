@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-// axios.defaults = "http://localhost:3030";
+axios.defaults.baseURL = "http://localhost:3030";
 
 const useHttp = (request) => {
 
@@ -14,7 +14,7 @@ const useHttp = (request) => {
             .then((response) => {
                 setHttpResponse(response.data);
             }).catch((error) => {
-                setHttpError(error);
+                setHttpError(error.response);
             }).finally(() => {
                 setHttpLoader(false);
             })

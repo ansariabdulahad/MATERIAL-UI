@@ -1,10 +1,14 @@
 import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Stack, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import SweetAlert from 'react-bootstrap-sweetalert';
+import Cookies from 'universal-cookie';
 
 import useHttp from '../../Hooks/useHttp';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
+
+    const cookie = new Cookies();
 
     const signupForm = {
         fullname: "Abdul Ahad",
@@ -50,6 +54,8 @@ const Signup = () => {
     useEffect(() => {
         if (request) {
             if (httpResponse) {
+                // SET COOKIE WHEN SIGNUP
+                cookie.set("authToken", httpResponse.token, { maxAge: 86400 });
                 return setSweetAlert({
                     state: true,
                     message: "Signup is success, Try to login !",
@@ -61,7 +67,7 @@ const Signup = () => {
             if (httpError) {
                 return setSweetAlert({
                     state: true,
-                    message: "Signup Failed !",
+                    message: httpError.data.message,
                     icon: "error",
                     title: "FAILED!"
                 });
@@ -85,14 +91,21 @@ const Signup = () => {
                         <Button
                             variant='outlined'
                             color='error'
+                            onClick={() => setSweetAlert({ state: false })}
                         >Cancel</Button>
-                        <Button
-                            variant='contained'
-                            color='success'
-                            sx={{
-                                color: "white"
-                            }}
-                        >Login</Button>
+                        {
+                            httpResponse ?
+                                <Button
+                                    variant='contained'
+                                    color='success'
+                                    LinkComponent={Link}
+                                    to="/admin-panel"
+                                    sx={{
+                                        color: "white"
+                                    }}
+                                >Login</Button> :
+                                null
+                        }
                     </Stack>
                 }
             >
@@ -291,8 +304,9 @@ const Signup = () => {
 
         if (isValid) {
             return setRequest({
-                method: 'POST                                                                                                                                                                                                                                       ',
-                url: 'http://localhost:3030/signup'
+                method: "POST",
+                url: "/signup",
+                data: input
             })
         }
     }
