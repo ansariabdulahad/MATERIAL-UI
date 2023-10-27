@@ -1,3 +1,6 @@
+import 'material-icons/iconfont/material-icons.css';
+import '@fontsource/poppins/500.css';
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,10 +10,8 @@ import {
   ThemeProvider,
   createTheme
 } from '@mui/material';
-
-import 'material-icons/iconfont/material-icons.css';
-import '@fontsource/poppins/500.css';
 import { cyan, deepOrange, deepPurple, lightBlue, pink, teal } from '@mui/material/colors';
+import { Provider } from 'react-redux';
 
 import Notfound from './Component/Notfound/Notfound';
 import Signup from './Component/Signup/Signup';
@@ -18,6 +19,7 @@ import Login from './Component/Login/Login';
 import AdminPanel from './Component/AdminPanel/AdminPanel';
 import Dashboard from './Component/AdminPanel/Dashboard/Dashboard';
 import AuthGuard from './Gaurd/AuthGuard';
+import storage from './storage';
 
 const App = () => {
 
@@ -37,22 +39,24 @@ const App = () => {
 
   const design = (
     <>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Routes>
-            <Route path='/' element={<Signup />} />
-            <Route path='/login' element={<Login />} />
-            <Route element={<AuthGuard />}>
-              <Route path='/admin-panel' element={<AdminPanel />}>
-                <Route path='dashboard' element={<Dashboard />} />
-                <Route path='login' element={<Login />} />
-                <Route path='*' element={<Notfound />} />
+      <Provider store={storage}>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <Routes>
+              <Route path='/' element={<Signup />} />
+              <Route path='/login' element={<Login />} />
+              <Route element={<AuthGuard />}>
+                <Route path='/admin-panel' element={<AdminPanel />}>
+                  <Route path='dashboard' element={<Dashboard />} />
+                  <Route path='login' element={<Login />} />
+                  <Route path='*' element={<Notfound />} />
+                </Route>
               </Route>
-            </Route>
-            <Route path='/*' element={<Notfound />} />
-          </Routes>
-        </Router>
-      </ThemeProvider>
+              <Route path='/*' element={<Notfound />} />
+            </Routes>
+          </Router>
+        </ThemeProvider>
+      </Provider>
     </>
   );
   return design;

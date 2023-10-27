@@ -2,11 +2,18 @@ import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Stack, TextField, 
 import { useEffect, useState } from 'react';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import Cookies from 'universal-cookie';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoadingButton } from '@mui/lab';
 
 import useHttp from '../../Hooks/useHttp';
-import { Link } from 'react-router-dom';
+import { signupRequest } from './signup.action';
+import { SIGNUP_ERROR, SIGNUP_SUCCESS } from './signup.state';
 
 const Signup = () => {
+
+    const dispatch = useDispatch();
+    const response = useSelector(response => response);
 
     const cookie = new Cookies();
 
@@ -40,40 +47,12 @@ const Signup = () => {
     const [input, setInput] = useState(signupForm);
     const [error, setError] = useState(signupFormValidation);
     const [checked, setChecked] = useState(false);
-    const [request, setRequest] = useState(null);
     const [sweetAlert, setSweetAlert] = useState({
         state: false,
         message: "",
         icon: "default",
         title: ""
     });
-
-    // User defined Hooks
-    const [httpResponse, httpError, httpLoader] = useHttp(request);
-
-    useEffect(() => {
-        if (request) {
-            if (httpResponse) {
-                // SET COOKIE WHEN SIGNUP
-                cookie.set("authToken", httpResponse.token, { maxAge: 86400 });
-                return setSweetAlert({
-                    state: true,
-                    message: "Signup is success, Try to login !",
-                    icon: "success",
-                    title: "SUCCESS!"
-                });
-            }
-
-            if (httpError) {
-                return setSweetAlert({
-                    state: true,
-                    message: httpError.data.message,
-                    icon: "error",
-                    title: "FAILED!"
-                });
-            }
-        }
-    }, [httpResponse, httpError, httpLoader]);
 
     const Alert = () => {
         const a = (
@@ -93,19 +72,15 @@ const Signup = () => {
                             color='error'
                             onClick={() => setSweetAlert({ state: false })}
                         >Cancel</Button>
-                        {
-                            httpResponse ?
-                                <Button
-                                    variant='contained'
-                                    color='success'
-                                    LinkComponent={Link}
-                                    to="/admin-panel"
-                                    sx={{
-                                        color: "white"
-                                    }}
-                                >Login</Button> :
-                                null
-                        }
+                        <Button
+                            variant='contained'
+                            color='success'
+                            LinkComponent={Link}
+                            to="/admin-panel"
+                            sx={{
+                                color: "white"
+                            }}
+                        >Login</Button>
                     </Stack>
                 }
             >
@@ -298,16 +273,33 @@ const Signup = () => {
         return valid;
     }
 
+    useEffect(() => {
+        if (response && response.error) {
+            return setSweetAlert({
+                state: true,
+                message: response.error.message,
+                icon: "error",
+                title: SIGNUP_ERROR
+            })
+        }
+
+        if (response && response.data) {
+            return setSweetAlert({
+                state: true,
+                message: 'Signup Successfully Completed',
+                icon: 'success',
+                title: SIGNUP_SUCCESS
+            })
+        }
+    }, [response]);
+
     const register = (e) => {
         e.preventDefault();
         const isValid = validateOnSubmit(); // calling...
 
         if (isValid) {
-            return setRequest({
-                method: "POST",
-                url: "/signup",
-                data: input
-            })
+            dispatch(signupRequest(input));
+
         }
     }
 
@@ -402,7 +394,8 @@ const Signup = () => {
                                 </FormGroup>
                                 <Button>Already Have An Account !</Button>
                             </Stack>
-                            <Button
+                            <LoadingButton
+                                loading={response && response.isLoader}
                                 type='submit'
                                 variant='contained'
                                 disabled={
@@ -412,7 +405,7 @@ const Signup = () => {
                                     error.password.state ||
                                     !checked
                                 }
-                            >Register</Button>
+                            >Register</LoadingButton>
                         </Stack>
                     </form>
                 </Grid>
