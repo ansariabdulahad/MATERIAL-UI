@@ -284,6 +284,8 @@ const Signup = () => {
         }
 
         if (response && response.data) {
+            // SET COOKIE WHEN SIGNUP SUCCESS
+            cookie.set('authToken', response.data.token);
             return setSweetAlert({
                 state: true,
                 message: 'Signup Successfully Completed',
