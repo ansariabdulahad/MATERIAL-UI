@@ -7,15 +7,22 @@ import {
     Stack,
     TextField
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Link,
     useNavigate
 } from 'react-router-dom';
 import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'universal-cookie';
+
+import loginRequest from './login.action';
 
 // MAIN COMPONNENT OF LOGIN PAGE
 const Login = () => {
+    const cookie = new Cookies();
+    const dispatch = useDispatch();
+    const { loginReducer } = useSelector(response => response);
     const [disabled, setDisabled] = useState(true);
     const [input, setInput] = useState({
         username: "",
@@ -32,6 +39,42 @@ const Login = () => {
         }
     })
     const navigate = useNavigate();
+
+    const checkForLogin = () => {
+        if (loginReducer.userNotFound) {
+            return setError((oldData) => {
+                return {
+                    ...oldData,
+                    username: {
+                        state: true,
+                        message: "Username dose not exist !"
+                    }
+                }
+            })
+        }
+
+        if (loginReducer.inCorrectPassword) {
+            return setError((oldData) => {
+                return {
+                    ...oldData,
+                    password: {
+                        state: true,
+                        message: "Wrong password !"
+                    }
+                }
+            })
+        }
+
+        if (loginReducer.isLogged) {
+
+            cookie.set('authToken', loginReducer.data.token, { maxAge: 86400 });
+            return navigate('/admin-panel');
+        }
+    }
+
+    useEffect(() => {
+        checkForLogin();
+    }, [loginReducer]);
 
     // HANDLE INPUTS    
     const handleInput = (e) => {
@@ -90,7 +133,7 @@ const Login = () => {
     //LOGIN FUNCTION CODING
     const login = (e) => {
         e.preventDefault();
-        navigate('/admin-panel')
+        dispatch(loginRequest(input));
     }
 
     // MAIN LOGIN PAGE DESIGN CODEING
