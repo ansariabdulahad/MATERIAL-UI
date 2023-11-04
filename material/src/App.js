@@ -1,5 +1,6 @@
 import 'material-icons/iconfont/material-icons.css';
 import '@fontsource/poppins/500.css';
+import 'react-bootstrap-sweetalert';
 
 import {
   BrowserRouter as Router,
