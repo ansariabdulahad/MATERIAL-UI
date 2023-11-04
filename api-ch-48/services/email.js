@@ -3,14 +3,14 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'justforcodeservice.com',
-    pass: 'gihvhdpnrxkaiifr'
+    user: 'ansariabdulahad3@gmail.com',
+    pass: 'zllvgqjlwtepgfky'
   }
 });
 
-const sendMail = async (data)=>{
+const sendMail = async (data) => {
   var mailOptions = {
-    from: 'justforcodeservice.com',
+    from: 'ansariabdulahad3@gmail.com',
     to: data.to,
     subject: data.subject,
     text: data.message
@@ -20,8 +20,7 @@ const sendMail = async (data)=>{
     await transporter.sendMail(mailOptions);
     return true;
   }
-  catch(err)
-  {
+  catch (err) {
     return false;
   }
 }

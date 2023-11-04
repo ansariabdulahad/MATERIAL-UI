@@ -5,20 +5,18 @@ const Verification = require("../schema/verification");
 const { sendMail } = require("../services/email");
 const bcrypt = require('bcrypt');
 
-const checkUser = async (request,response)=>{
+const checkUser = async (request, response) => {
   let verif = code();
   const data = request.body;
   const user = await User.findOne(data);
-  if(data.email && user)
-  {
+  if (data.email && user) {
     const receipt = {
       to: data.email,
       subject: "Verification Code",
-      message: "Your verification code is "+verif
+      message: "Your verification code is " + verif
     }
     const isSend = await sendMail(receipt);
-    if(isSend)
-    {
+    if (isSend) {
       let tmp = new Verification({
         email: data.email,
         code: verif
@@ -44,13 +42,11 @@ const checkUser = async (request,response)=>{
   }
 }
 
-const code = ()=>{
+const code = () => {
   let result;
-  for(let i=0;i<4;i++)
-  {
+  for (let i = 0; i < 4; i++) {
     let random = Math.floor(Math.random() * 10);
-    if(i===0)
-    {
+    if (i === 0) {
       result = random.toString();
     }
     else {
@@ -60,15 +56,13 @@ const code = ()=>{
   return result;
 }
 
-const forgot = async (request,response)=>{
+const forgot = async (request, response) => {
   let update = request.body;
   update['isVerified'] = false;
   const isDone = await Verification.findOne(update);
-  if(update.email && update.code && update.password && isDone)
-  {
+  if (update.email && update.code && update.password && isDone) {
     const isFinal = await changePassword(update);
-    if(isFinal)
-    {
+    if (isFinal) {
       response.status(200);
       response.json({
         message: "password changed"
@@ -89,7 +83,7 @@ const forgot = async (request,response)=>{
   }
 }
 
-const changePassword = async (data)=>{
+const changePassword = async (data) => {
   data['isVerified'] = true;
   data['password'] = await bcrypt.hash(data.password.toString(), 12);
   let query = {
@@ -97,10 +91,10 @@ const changePassword = async (data)=>{
     isVerified: false,
     code: data.code
   }
-  await Verification.updateOne(query,{isVerified:true});
+  await Verification.updateOne(query, { isVerified: true });
   await User.updateOne({
     email: data.email
-  },{
+  }, {
     password: data.password
   });
   return true;

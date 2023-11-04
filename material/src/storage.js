@@ -3,6 +3,7 @@ import logger from "redux-logger";
 import thunk from "redux-thunk";
 import { signupReducer } from "./Component/Signup/signup.reducer";
 import { loginReducer } from "./Component/Login/login.reducer";
+import { forgotReducer } from "./Component/Forgot/forgot.reducer";
 
 const middlewares = applyMiddleware(
     logger,
@@ -11,7 +12,8 @@ const middlewares = applyMiddleware(
 
 const root = combineReducers({
     signupReducer,
-    loginReducer
+    loginReducer,
+    forgotReducer
 })
 
 const storage = createStore(root, {}, middlewares);
