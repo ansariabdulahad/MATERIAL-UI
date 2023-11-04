@@ -9,6 +9,8 @@ const verifyToken = async ({ token }) => {
     try {
         const response = await axios.get('/verify-token/' + token);
         if (response.status === 200) {
+            let user = JSON.stringify(response.data.data.data);
+            sessionStorage.setItem('user', user);
             return { data: response.data, error: null };
         } else {
             throw new Error(`Server responded with status ${response.status}`);

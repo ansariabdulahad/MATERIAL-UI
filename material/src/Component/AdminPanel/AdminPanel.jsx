@@ -17,7 +17,7 @@ import {
     Toolbar,
     Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Link,
     Outlet,
@@ -37,10 +37,22 @@ const AdminPanel = () => {
     const [width, setWidth] = useState(250);
     const [collapse, setCollapse] = useState(false);
     const [parent, setParent] = useState(null);
+    const [user, setUser] = useState(null);
 
     const location = useLocation();
     const routing = location.pathname.split('/');
     const open = Boolean(parent);
+
+    useEffect(() => {
+        showUserInfo();
+    }, [user]);
+
+    const showUserInfo = () => {
+        if (!user) {
+            let userInfo = JSON.parse(sessionStorage.getItem('user'));
+            return setUser(userInfo);
+        }
+    }
 
     const openProfileMenu = (e) => {
         const el = e.currentTarget;
@@ -340,7 +352,7 @@ const AdminPanel = () => {
                                             <span
                                                 style={{ marginRight: "12px" }}
                                                 className="material-icons-outlined"
-                                            >person</span> Profile
+                                            >person</span> {user && user.name}
                                         </ListItemIcon>
                                     </MenuItem>
                                     <MenuItem>
@@ -348,7 +360,15 @@ const AdminPanel = () => {
                                             <span
                                                 style={{ marginRight: "12px" }}
                                                 className="material-icons-outlined"
-                                            >person_add</span> Add another account
+                                            >email</span> {user && user.email}
+                                        </ListItemIcon>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <ListItemIcon>
+                                            <span
+                                                style={{ marginRight: "12px" }}
+                                                className="material-icons-outlined"
+                                            >phone</span> {user && user.mobile}
                                         </ListItemIcon>
                                     </MenuItem>
                                     <MenuItem>

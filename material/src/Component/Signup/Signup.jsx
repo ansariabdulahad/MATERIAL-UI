@@ -13,7 +13,7 @@ import { SIGNUP_ERROR, SIGNUP_SUCCESS } from './signup.state';
 const Signup = () => {
 
     const dispatch = useDispatch();
-    const response = useSelector(response => response);
+    const { signupReducer } = useSelector(response => response);
 
     const cookie = new Cookies();
 
@@ -274,18 +274,19 @@ const Signup = () => {
     }
 
     useEffect(() => {
-        if (response && response.error) {
+        console.log(signupReducer);
+        if (signupReducer && signupReducer.error) {
             return setSweetAlert({
                 state: true,
-                message: response.error.message,
+                message: signupReducer.error.message,
                 icon: "error",
                 title: SIGNUP_ERROR
             })
         }
 
-        if (response && response.data) {
+        if (signupReducer && signupReducer.data) {
             // SET COOKIE WHEN SIGNUP SUCCESS
-            cookie.set('authToken', response.data.token);
+            cookie.set('authToken', signupReducer.data.token);
             return setSweetAlert({
                 state: true,
                 message: 'Signup Successfully Completed',
@@ -293,7 +294,7 @@ const Signup = () => {
                 title: SIGNUP_SUCCESS
             })
         }
-    }, [response]);
+    }, [signupReducer]);
 
     const register = (e) => {
         e.preventDefault();
@@ -394,10 +395,13 @@ const Signup = () => {
                                         }
                                     />
                                 </FormGroup>
-                                <Button>Already Have An Account !</Button>
+                                <Button
+                                    LinkComponent={Link}
+                                    to='/login'
+                                >Already Have An Account !</Button>
                             </Stack>
                             <LoadingButton
-                                loading={response && response.isLoader}
+                                loading={signupReducer && signupReducer.isLoader}
                                 type='submit'
                                 variant='contained'
                                 disabled={
