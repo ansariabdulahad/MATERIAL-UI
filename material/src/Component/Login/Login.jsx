@@ -77,7 +77,7 @@ const Login = () => {
         if (loginReducer.isLogged) {
 
             cookie.set('authToken', loginReducer.data.token, { maxAge: 86400 });
-            return navigate('/admin-panel');
+            return navigate('/admin-panel/dashboard/modern');
         }
     }
 

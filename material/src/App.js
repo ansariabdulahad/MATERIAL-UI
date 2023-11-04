@@ -18,7 +18,7 @@ import Notfound from './Component/Notfound/Notfound';
 import Signup from './Component/Signup/Signup';
 import Login from './Component/Login/Login';
 import AdminPanel from './Component/AdminPanel/AdminPanel';
-import Dashboard from './Component/AdminPanel/Dashboard/Dashboard';
+import Modern from './Component/AdminPanel/Dashboard/Modern/Modern';
 import AuthGuard from './Gaurd/AuthGuard';
 import storage from './storage';
 import Forgot from './Component/Forgot/Forgot';
@@ -50,7 +50,7 @@ const App = () => {
               <Route path='/forgot-password' element={<Forgot />} />
               <Route element={<AuthGuard />}>
                 <Route path='/admin-panel' element={<AdminPanel />}>
-                  <Route path='dashboard' element={<Dashboard />} />
+                  <Route path='dashboard/modern' element={<Modern />} />
                   <Route path='login' element={<Login />} />
                   <Route path='*' element={<Notfound />} />
                 </Route>

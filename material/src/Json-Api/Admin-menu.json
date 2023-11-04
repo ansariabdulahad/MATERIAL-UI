@@ -5,17 +5,17 @@
       {
         "label": "Modern",
         "icon": "airplay",
-        "link": "modern"
+        "link": "dashboard/modern"
       },
       {
         "label": "Analytics",
         "icon": "analytics",
-        "link": "analytics"
+        "link": "dashboard/analytics"
       },
       {
         "label": "Inventory",
         "icon": "inventory",
-        "link": "inventory"
+        "link": "dashboard/inventory"
       }
     ]
   },
