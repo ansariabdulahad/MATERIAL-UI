@@ -286,7 +286,7 @@ const Signup = () => {
 
         if (signupReducer && signupReducer.data) {
             // SET COOKIE WHEN SIGNUP SUCCESS
-            cookie.set('authToken', signupReducer.data.token);
+            cookie.set('authToken', signupReducer.data.token, { maxAge: 86400 });
             return setSweetAlert({
                 state: true,
                 message: 'Signup Successfully Completed',

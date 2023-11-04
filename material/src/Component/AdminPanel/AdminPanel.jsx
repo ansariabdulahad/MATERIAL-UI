@@ -23,12 +23,18 @@ import {
     Outlet,
     useResolvedPath,
     useMatch,
-    useLocation
+    useLocation,
+    useNavigate
 } from "react-router-dom";
 import { deepOrange } from "@mui/material/colors";
 import MediaQuery from 'react-responsive';
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 
 import adminMenu from '../../Json-Api/Admin-menu.json';
+import { logoutRequest } from "../Login/login.action";
 
 const AdminPanel = () => {
 
@@ -39,13 +45,23 @@ const AdminPanel = () => {
     const [parent, setParent] = useState(null);
     const [user, setUser] = useState(null);
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { loginReducer } = useSelector(response => response);
     const location = useLocation();
     const routing = location.pathname.split('/');
     const open = Boolean(parent);
 
     useEffect(() => {
         showUserInfo();
-    }, [user]);
+        checkForLogout();
+    }, [user, loginReducer]);
+
+    const checkForLogout = () => {
+        if (loginReducer.isLogout) {
+            return navigate('/login')
+        }
+    }
 
     const showUserInfo = () => {
         if (!user) {
@@ -380,7 +396,9 @@ const AdminPanel = () => {
                                         </ListItemIcon>
                                     </MenuItem>
                                     <MenuItem>
-                                        <ListItemIcon>
+                                        <ListItemIcon
+                                            onClick={() => dispatch(logoutRequest())}
+                                        >
                                             <span
                                                 style={{ marginRight: "12px" }}
                                                 className="material-icons-outlined"

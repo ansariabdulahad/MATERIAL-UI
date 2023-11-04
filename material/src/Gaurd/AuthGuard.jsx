@@ -29,7 +29,7 @@ const AuthGuard = () => {
         token: token
     });
 
-    if (isLoading) {
+    if (token) {
         return <Outlet />
     }
     else {

@@ -21,6 +21,7 @@ import AdminPanel from './Component/AdminPanel/AdminPanel';
 import Dashboard from './Component/AdminPanel/Dashboard/Dashboard';
 import AuthGuard from './Gaurd/AuthGuard';
 import storage from './storage';
+import Forgot from './Component/Forgot/Forgot';
 
 const App = () => {
 
@@ -46,6 +47,7 @@ const App = () => {
             <Routes>
               <Route path='/' element={<Signup />} />
               <Route path='/login' element={<Login />} />
+              <Route path='/forgot-password' element={<Forgot />} />
               <Route element={<AuthGuard />}>
                 <Route path='/admin-panel' element={<AdminPanel />}>
                   <Route path='dashboard' element={<Dashboard />} />
