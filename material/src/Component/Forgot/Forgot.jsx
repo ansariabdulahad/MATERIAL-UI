@@ -74,11 +74,11 @@ const Forgot = () => {
     }
 
     const checkForNewPassword = () => {
-        if (forgotReducer.passwordChanged === true) {
+        if (forgotReducer.passwordChanged) {
             return navigate('/login');
         }
 
-        if (forgotReducer.invalidCode === true) {
+        if (forgotReducer.invalidCode) {
             return setError((oldData) => {
                 return {
                     ...oldData,
