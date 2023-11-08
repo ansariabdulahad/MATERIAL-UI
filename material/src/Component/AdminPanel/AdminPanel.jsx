@@ -283,6 +283,15 @@ const AdminPanel = () => {
                                     >
                                         <span className="material-icons-outlined">menu</span>
                                     </IconButton>
+                                    <IconButton>
+                                        <span className="material-icons-outlined">email</span>
+                                    </IconButton>
+                                    <IconButton>
+                                        <span className="material-icons-outlined">web_asset</span>
+                                    </IconButton>
+                                    <IconButton>
+                                        <span className="material-icons-outlined">star_outline</span>
+                                    </IconButton>
                                 </MediaQuery>
                                 <MediaQuery maxWidth={1224}>
                                     <IconButton
@@ -291,15 +300,6 @@ const AdminPanel = () => {
                                         <span className="material-icons-outlined">menu</span>
                                     </IconButton>
                                 </MediaQuery>
-                                <IconButton>
-                                    <span className="material-icons-outlined">email</span>
-                                </IconButton>
-                                <IconButton>
-                                    <span className="material-icons-outlined">web_asset</span>
-                                </IconButton>
-                                <IconButton>
-                                    <span className="material-icons-outlined">star_outline</span>
-                                </IconButton>
                             </Stack>
                         </Toolbar>
                         <Toolbar>
