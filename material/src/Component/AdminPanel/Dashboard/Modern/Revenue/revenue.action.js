@@ -1,4 +1,4 @@
-import { REVENUE_FAIL, REVENUE_REQUEST, REVENUE_SUCCESS } from "./revenue.state";
+import { REVENUE_FAILED, REVENUE_REQUEST, REVENUE_SUCCESS } from "./revenue.state";
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:3030';
@@ -10,20 +10,19 @@ const revenueRequest = () => {
                 type: REVENUE_REQUEST
             });
 
-            const response = await axios({
+            const { data } = await axios({
                 method: 'GET',
-                url: 'revenue-updates'
+                url: '/revenue-updates'
             });
 
-            console.log("RESPONSE :: ", response);
-
             dispatch({
-                type: REVENUE_SUCCESS
+                type: REVENUE_SUCCESS,
+                payload: data
             });
 
         } catch (error) {
             dispatch({
-                type: REVENUE_FAIL
+                type: REVENUE_FAILED
             })
         }
     }

@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import { signupReducer } from "./Component/Signup/signup.reducer";
 import { loginReducer } from "./Component/Login/login.reducer";
 import { forgotReducer } from "./Component/Forgot/forgot.reducer";
+import { revenueReducer } from "./Component/AdminPanel/Dashboard/Modern/Revenue/revenue.reducer";
 
 const middlewares = applyMiddleware(
     logger,
@@ -13,7 +14,8 @@ const middlewares = applyMiddleware(
 const root = combineReducers({
     signupReducer,
     loginReducer,
-    forgotReducer
+    forgotReducer,
+    revenueReducer
 })
 
 const storage = createStore(root, {}, middlewares);

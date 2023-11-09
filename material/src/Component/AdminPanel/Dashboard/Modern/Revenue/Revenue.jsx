@@ -8,61 +8,31 @@ import { revenueRequest } from "./revenue.action";
 const Revenue = () => {
 
     const dispatch = useDispatch();
-    const response = useSelector(response => response);
+    const { revenueReducer } = useSelector(response => response);
 
-    const [series, setSeries] = useState([
-        {
-            name: 'Profit',
-            data: [50, 60, 20, 30, 55, 50]
-        },
-        {
-            name: 'Loss',
-            data: [25, 10, 10, 15, 50, 70]
-        }
-    ]);
+    const [series, setSeries] = useState([]);
+    const [cat, setCat] = useState([]);
 
-    const [options, setOptions] = useState({
+    const options = {
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
-        },
-        theme: {
-            mode: 'light',
-            palette: 'palette10'
-        },
-        // colors: ['#101641', '#e68d89'],
-        legend: {
-            show: true,
-            position: 'bottom',
-            horizontalAlign: 'center',
-            fontSize: 20,
-            fontWeight: 'bold',
-            markers: {
-                fillColors: ['red', 'cyan'],
-                width: 20,
-                height: 20
-            }
+            categories: cat
         },
         chart: {
             toolbar: {
                 show: true,
                 tools: {
-                    download: false,
-                    zoom: false
+                    zoom: false,
+                    zoomin: false,
+                    zoomout: false,
+                    pan: false,
+                    reset: false
                 }
             },
-            // background: 'black',
             animations: {
                 speed: 1000,
                 ease: 'linear'
             }
         },
-        // markers: {
-        //     size: [15, 10],
-        //     colors: ['red', 'cyan'],
-        //     shape: 'square',
-        //     strokeWidth: 10,
-        //     strokeColors: 'black'
-        // },
         title: {
             text: 'Revenue',
             align: 'center',
@@ -73,21 +43,66 @@ const Revenue = () => {
         },
         subtitle: {
             text: 'Updates',
-            align: 'center',
+            align: 'left',
             style: {
                 fontSize: '18px',
                 color: 'grey'
             }
-        }
-    });
+        },
+        // theme: {
+        //     mode: 'light',
+        //     palette: 'palette10'
+        // },
+        // // colors: ['#101641', '#e68d89'],
+        // legend: {
+        //     show: true,
+        //     position: 'bottom',
+        //     horizontalAlign: 'center',
+        //     fontSize: 20,
+        //     fontWeight: 'bold',
+        //     markers: {
+        //         fillColors: ['red', 'cyan'],
+        //         width: 20,
+        //         height: 20
+        //     }
+        // },
+        // // markers: {
+        // //     size: [15, 10],
+        // //     colors: ['red', 'cyan'],
+        // //     shape: 'square',
+        // //     strokeWidth: 10,
+        // //     strokeColors: 'black'
+        // // },
+    };
 
     const getRevenue = () => {
         return dispatch(revenueRequest());
     }
 
+    const setRevenue = () => {
+        return (
+            setSeries([
+                {
+                    name: 'Earning',
+                    data: revenueReducer.data.earning
+                },
+                {
+                    name: 'Expenses',
+                    data: revenueReducer.data.expenses
+                }
+            ]),
+            setCat(revenueReducer.data.months)
+        );
+    }
+
     useEffect(() => {
-        getRevenue();
-    }, [response]);
+        if (revenueReducer.isLoading === null) {
+            getRevenue();
+        }
+        if (revenueReducer.success) {
+            setRevenue();
+        }
+    }, [revenueReducer]);
 
     const design = (
         <>
@@ -107,4 +122,4 @@ const Revenue = () => {
     return design;
 }
 
-export default Revenue;
+export default Revenue; 
