@@ -166,8 +166,10 @@ const Login = () => {
     const design = (
         <>
             <Container>
-                <Grid container>
-                    <Grid item sm={6} xs={12}>One</Grid>
+                <Grid container className='d-flex justify-content-center align-items-center'>
+                    <Grid item sm={6} xs={12}>
+                        <img src='images/signup-logo.png' width={'100%'} alt='signup-logo' />
+                    </Grid>
                     <Grid item sm={6} xs={12}>
                         <h1>Login</h1>
                         <form onSubmit={login}>
