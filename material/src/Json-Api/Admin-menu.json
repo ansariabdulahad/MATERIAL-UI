@@ -30,44 +30,44 @@
           {
             "label": "List",
             "icon": "list",
-            "link": "customer-list"
+            "link": "apps/customer-list"
           },
           {
             "label": "Add New",
             "icon": "add",
-            "link": "customer-add"
+            "link": "apps/customer-add"
           },
           {
             "label": "Edit",
             "icon": "edit",
-            "link": "customer-edit"
+            "link": "apps/customer-edit"
           }
         ]
       },
       {
         "label": "Calender",
         "icon": "schedule",
-        "link": "calender"
+        "link": "apps/calender"
       },
       {
         "label": "Inbox",
         "icon": "inbox",
-        "link": "inbox"
+        "link": "apps/inbox"
       },
       {
         "label": "Chat",
         "icon": "chat_bubble_outlined",
-        "link": "chat"
+        "link": "apps/chat"
       },
       {
         "label": "Mail",
         "icon": "mail",
-        "link": "mail"
+        "link": "apps/mail"
       },
       {
         "label": "Notifications",
         "icon": "notifications",
-        "link": "notification"
+        "link": "apps/notification"
       }
     ]
   },

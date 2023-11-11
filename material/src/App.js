@@ -18,6 +18,7 @@ import Notfound from './Component/Notfound/Notfound';
 import Signup from './Component/Signup/Signup';
 import Login from './Component/Login/Login';
 import AdminPanel from './Component/AdminPanel/AdminPanel';
+import Calender from './Component/AdminPanel/Apps/Calender/Calender';
 import Modern from './Component/AdminPanel/Dashboard/Modern/Modern';
 import AuthGuard from './Gaurd/AuthGuard';
 import storage from './storage';
@@ -51,6 +52,7 @@ const App = () => {
               <Route element={<AuthGuard />}>
                 <Route path='/admin-panel' element={<AdminPanel />}>
                   <Route path='dashboard/modern' element={<Modern />} />
+                  <Route path='apps/calender' element={<Calender />} />
                   <Route path='login' element={<Login />} />
                   <Route path='*' element={<Notfound />} />
                 </Route>

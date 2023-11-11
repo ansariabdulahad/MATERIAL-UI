@@ -1,0 +1,15 @@
+.fc a {
+    text-decoration: none;
+}
+
+.fc-daygrid-day-top a {
+    color: deeppink;
+}
+
+.fc .fc-col-header-cell-cushion {
+    color: orange;
+}
+
+:root {
+    --fc-border-color: #f5f5f5
+}
