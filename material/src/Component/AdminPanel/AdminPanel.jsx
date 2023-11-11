@@ -1,3 +1,4 @@
+import logo from '../AdminPanel/LOGO.png';
 import {
     AppBar,
     Avatar,
@@ -198,7 +199,7 @@ const AdminPanel = () => {
                             mb: 0
                         }}
                     >
-                        <img src="images/LOGO.png" width={200} alt="brannd-logo" />
+                        <img src={logo} width={200} alt="brannd-logo" />
                     </ListSubheader>}
                 />
                 {
@@ -233,7 +234,7 @@ const AdminPanel = () => {
                             mb: 0
                         }}
                     >
-                        <img src="images/LOGO.png" width={200} alt="brannd-logo" />
+                        <img src={logo} width={200} alt="brannd-logo" />
                     </ListSubheader>}
                 />
                 {

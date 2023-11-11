@@ -55,9 +55,9 @@
         "link": "apps/inbox"
       },
       {
-        "label": "Chat",
-        "icon": "chat_bubble_outlined",
-        "link": "apps/chat"
+        "label": "Notes",
+        "icon": "note",
+        "link": "apps/notes"
       },
       {
         "label": "Mail",
