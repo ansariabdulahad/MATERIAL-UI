@@ -3,8 +3,11 @@ import './congratulation.css';
 import { Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import Chart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const Congratulation = () => {
+
+    const { adminReducer } = useSelector(response => response);
 
     const options = {
         chart: {
@@ -33,7 +36,8 @@ const Congratulation = () => {
         title: {
             text: '$120,000',
             style: {
-                fontSize: '18px'
+                fontSize: '18px',
+                color: adminReducer.dark ? '#fff' : 'inherit'
             }
         }
     };
@@ -46,14 +50,19 @@ const Congratulation = () => {
 
     const design = (
         <>
-            <Grid item sx={12} sm={4}>
-                <Card>
+            <Grid item sx={12} sm={6}>
+                <Card className='chart-box'
+                    sx={{
+                        bgcolor: adminReducer.dark ? '#1e1e1e' : 'white'
+                    }}
+                >
                     <CardContent>
                         <Typography
                             gutterBottom
                             variant="h5"
                         >Sales</Typography>
                         <Chart
+                            className="chart"
                             type="area"
                             options={options}
                             series={series}

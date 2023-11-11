@@ -8,6 +8,7 @@ import {
   Route
 } from 'react-router-dom';
 import {
+  Paper,
   ThemeProvider,
   createTheme
 } from '@mui/material';
@@ -24,11 +25,21 @@ import Modern from './Component/AdminPanel/Dashboard/Modern/Modern';
 import AuthGuard from './Gaurd/AuthGuard';
 import storage from './storage';
 import Forgot from './Component/Forgot/Forgot';
+import { useState } from 'react';
 
 const App = () => {
 
+  const [mode, setMode] = useState('light');
+
+  storage.subscribe(() => {
+    const { adminReducer } = storage.getState();
+
+    adminReducer.dark ? setMode('dark') : setMode('light');
+  })
+
   const theme = createTheme({
     palette: {
+      mode: mode,
       primary: deepPurple,
       success: cyan,
       error: pink,
@@ -45,23 +56,27 @@ const App = () => {
     <>
       <Provider store={storage}>
         <ThemeProvider theme={theme}>
-          <Router>
-            <Routes>
-              <Route path='/' element={<Signup />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/forgot-password' element={<Forgot />} />
-              <Route element={<AuthGuard />}>
-                <Route path='/admin-panel' element={<AdminPanel />}>
-                  <Route path='dashboard/modern' element={<Modern />} />
-                  <Route path='apps/calender' element={<Calender />} />
-                  <Route path='apps/notes' element={<Notes />} />
-                  <Route path='login' element={<Login />} />
-                  <Route path='*' element={<Notfound />} />
+          <Paper sx={{
+            minHeight: '100vh'
+          }}>
+            <Router>
+              <Routes>
+                <Route path='/' element={<Signup />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/forgot-password' element={<Forgot />} />
+                <Route element={<AuthGuard />}>
+                  <Route path='/admin-panel' element={<AdminPanel />}>
+                    <Route path='dashboard/modern' element={<Modern />} />
+                    <Route path='apps/calender' element={<Calender />} />
+                    <Route path='apps/notes' element={<Notes />} />
+                    <Route path='login' element={<Login />} />
+                    <Route path='*' element={<Notfound />} />
+                  </Route>
                 </Route>
-              </Route>
-              <Route path='/*' element={<Notfound />} />
-            </Routes>
-          </Router>
+                <Route path='/*' element={<Notfound />} />
+              </Routes>
+            </Router>
+          </Paper>
         </ThemeProvider>
       </Provider>
     </>

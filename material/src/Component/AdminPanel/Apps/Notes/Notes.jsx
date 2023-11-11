@@ -3,8 +3,11 @@ import './notes.css';
 import { Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemButton, ListItemText, ListSubheader, OutlinedInput } from "@mui/material";
 import { useState } from "react";
 import JoditEditor from 'jodit-react';
+import { useSelector } from 'react-redux';
 
 const Notes = () => {
+
+    const { adminReducer } = useSelector(response => response);
 
     const [saveInput, setSaveInput] = useState(false);
     const [note, setNote] = useState('');
@@ -17,9 +20,10 @@ const Notes = () => {
     const design = (
         <>
             <div
-                className="bg-white shadow-sm"
+                className="shadow-sm"
                 style={{
-                    borderRadius: '10px'
+                    borderRadius: '10px',
+                    backgroundColor: adminReducer.dark ? '#000' : 'white'
                 }}
             >
                 <Grid container>

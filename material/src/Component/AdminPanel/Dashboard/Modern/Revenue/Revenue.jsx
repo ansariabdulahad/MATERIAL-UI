@@ -8,7 +8,7 @@ import { revenueRequest } from "./revenue.action";
 const Revenue = () => {
 
     const dispatch = useDispatch();
-    const { revenueReducer } = useSelector(response => response);
+    const { revenueReducer, adminReducer } = useSelector(response => response);
 
     const [series, setSeries] = useState([]);
     const [cat, setCat] = useState([]);
@@ -38,7 +38,7 @@ const Revenue = () => {
             align: 'center',
             style: {
                 fontSize: '21px',
-                // color: 'cyan'
+                color: adminReducer.dark ? '#fff' : 'inherit'
             }
         },
         subtitle: {
@@ -46,7 +46,7 @@ const Revenue = () => {
             align: 'left',
             style: {
                 fontSize: '18px',
-                color: 'grey'
+                color: adminReducer.dark ? '#fff' : 'inherit'
             }
         },
         // theme: {
@@ -107,7 +107,11 @@ const Revenue = () => {
     const design = (
         <>
             <Grid item sx={12} sm={6}>
-                <Card>
+                <Card
+                    sx={{
+                        bgcolor: adminReducer.dark ? '#1e1e1e' : 'white'
+                    }}
+                >
                     <CardContent>
                         <Chart
                             type="line"

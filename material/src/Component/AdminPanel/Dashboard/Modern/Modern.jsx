@@ -9,9 +9,9 @@ const Modern = () => {
         <>
             <Grid container spacing={3}>
                 <Congratulation />
-                <Purchase />
                 <TotalEarning />
                 <Revenue />
+                <Purchase />
             </Grid>
         </>
     );
