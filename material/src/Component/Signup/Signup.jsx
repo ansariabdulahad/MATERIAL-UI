@@ -13,7 +13,7 @@ import { SIGNUP_ERROR, SIGNUP_SUCCESS } from './signup.state';
 const Signup = () => {
 
     const dispatch = useDispatch();
-    const { signupReducer } = useSelector(response => response);
+    const signupReducer = useSelector(response => response.signupReducer);
 
     const cookie = new Cookies();
 
@@ -274,7 +274,6 @@ const Signup = () => {
     }
 
     useEffect(() => {
-        console.log(signupReducer);
         if (signupReducer && signupReducer.error) {
             return setSweetAlert({
                 state: true,
@@ -302,7 +301,6 @@ const Signup = () => {
 
         if (isValid) {
             dispatch(signupRequest(input));
-
         }
     }
 

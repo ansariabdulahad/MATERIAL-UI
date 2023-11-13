@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Grid, Skeleton, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import Chart from 'react-apexcharts';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,8 @@ import { revenueRequest } from "./revenue.action";
 const Revenue = () => {
 
     const dispatch = useDispatch();
-    const { revenueReducer, adminReducer } = useSelector(response => response);
+    const revenueReducer = useSelector(response => response.revenueReducer);
+    const adminReducer = useSelector(response => response.adminReducer);
 
     const [series, setSeries] = useState([]);
     const [cat, setCat] = useState([]);
@@ -113,11 +114,48 @@ const Revenue = () => {
                     }}
                 >
                     <CardContent>
-                        <Chart
-                            type="line"
-                            options={options}
-                            series={series}
-                        />
+                        {
+                            revenueReducer.isLoading ?
+                                <div>
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <Skeleton
+                                            width={80}
+                                            height={80}
+                                            variant="circular"
+                                            sx={{
+                                                mr: 2
+                                            }}
+                                        />
+                                        <div className="d-flex flex-column flex-grow-1">
+                                            <Skeleton
+                                                width={'100%'}
+                                                height={40}
+                                                variant="rectangular"
+                                            />
+                                            <Skeleton
+                                                width={'100%'}
+                                                variant="text"
+                                            />
+                                        </div>
+                                    </div>
+                                    <Skeleton
+                                        width={'100%'}
+                                        height={280}
+                                        variant="rectangular"
+                                        sx={{
+                                            mt: 1
+                                        }}
+                                    />
+                                </div> :
+                                <div>
+                                    <Chart
+                                        type="line"
+                                        options={options}
+                                        series={series}
+                                    />
+                                </div>
+                        }
+
                     </CardContent>
                 </Card>
             </Grid>

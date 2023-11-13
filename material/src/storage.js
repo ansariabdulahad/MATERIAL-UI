@@ -8,7 +8,7 @@ import { revenueReducer } from "./Component/AdminPanel/Dashboard/Modern/Revenue/
 import { adminReducer } from "./Component/AdminPanel/admin.reducer";
 
 const middlewares = applyMiddleware(
-    logger,
+    // logger, // if we need to know which action is dispatched in console then enabled this logger.
     thunk
 );
 

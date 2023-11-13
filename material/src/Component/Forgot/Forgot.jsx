@@ -23,7 +23,7 @@ const Forgot = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { forgotReducer } = useSelector(response => response);
+    const forgotReducer = useSelector(response => response.forgotReducer);
 
     const [verifyForm, setVerifyForm] = useState(false);
     const [input, setInput] = useState({

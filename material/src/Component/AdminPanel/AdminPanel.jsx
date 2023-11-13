@@ -53,7 +53,8 @@ const AdminPanel = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loginReducer, adminReducer } = useSelector(response => response);
+    const loginReducer = useSelector(response => response.loginReducer);
+    const adminReducer = useSelector(response => response.adminReducer);
     const location = useLocation();
     const routing = location.pathname.split('/');
     const open = Boolean(parent);

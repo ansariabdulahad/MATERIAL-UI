@@ -28,7 +28,7 @@ import { loginRequest } from './login.action';
 const Login = () => {
     const cookie = new Cookies();
     const dispatch = useDispatch();
-    const { loginReducer } = useSelector(response => response);
+    const loginReducer = useSelector(response => response.loginReducer);
 
     const [type, setType] = useState('password');
     const [disabled, setDisabled] = useState(true);

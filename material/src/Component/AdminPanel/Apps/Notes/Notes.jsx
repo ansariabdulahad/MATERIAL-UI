@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const Notes = () => {
 
-    const { adminReducer } = useSelector(response => response);
+    const adminReducer = useSelector(response => response.adminReducer);
 
     const [saveInput, setSaveInput] = useState(false);
     const [note, setNote] = useState('');
